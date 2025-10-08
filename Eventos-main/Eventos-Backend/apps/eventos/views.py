@@ -1,0 +1,8 @@
+from django.shortcuts import render
+from rest_framework import viewsets
+from .models import Evento
+from .serializers import EventoSerializer
+
+class EventoViewSet(viewsets.ModelViewSet):
+    queryset = Evento.objects.all().order_by('-data')
+    serializer_class = EventoSerializer
