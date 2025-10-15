@@ -18,7 +18,13 @@
 
         <button type="submit">Entrar</button>
       </form>
+
       <p class="error-msg" v-if="erro">{{ erro }}</p>
+
+      <p class="cadastro-link">
+        Não tem conta?
+        <button class="btn-cadastro" @click="irParaCadastro">Criar Conta</button>
+      </p>
     </section>
   </main>
 </template>
@@ -35,100 +41,122 @@ const router = useRouter();
 
 function fazerLogin() {
   if (email.value && senha.value) {
-    if (tipo.value === 'admin') {
-      router.push('/admin');
-    } else if (tipo.value === 'colaborador') {
-      router.push('/colaborador');
-    } else {
-      router.push('/eventos');
-    }
+    if (tipo.value === 'admin') router.push('/admin');
+    else if (tipo.value === 'colaborador') router.push('/colaborador');
+    else router.push('/eventos');
   } else {
     erro.value = 'Preencha email e senha.';
   }
+}
+
+function irParaCadastro() {
+  router.push('/cadastro');
 }
 </script>
 
 <style scoped>
 .auth-bg {
   min-height: 100vh;
-  background: linear-gradient(135deg, #36177e 0%, #7b1fa2 80%, #fff 100%);
+  background: linear-gradient(135deg, #ece1fa 40%, #f0e5fe 100%);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
+
 .auth-card {
-  background: #fff;
+  background: white;
   border-radius: 18px;
-  box-shadow: 0 2px 18px rgba(76,31,162,0.11);
-  padding: 2.7rem 2.4rem 2rem;
-  width: 100%;
-  max-width: 340px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 2px 22px rgba(123, 31, 162, 0.17);
+  width: 360px;
   text-align: center;
 }
+
 h2 {
   color: #7b1fa2;
-  margin-bottom: 2.2rem;
-  font-size: 1.7rem;
-  font-weight: bold;
+  font-weight: 900;
+  margin-bottom: 2rem;
 }
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
+
 label {
+  font-weight: 700;
+  color: #5a157c;
+  display: block;
+  margin: 0.7rem 0 0.3rem 0;
   text-align: left;
-  font-weight: 600;
-  color: #6532c2;
-  margin-bottom: 0.2rem;
 }
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+
+input[type='email'],
+input[type='password'] {
+  width: 100%;
   padding: 0.75rem;
-  border-radius: 14px;
-  border: 1px solid #d3c6ef;
-  background: #f5f2fa;
   font-size: 1rem;
+  border-radius: 12px;
+  border: 1.5px solid #d1c1eb;
+  background-color: #f4ebff;
+  outline: none;
 }
+
 input:focus {
   border-color: #7b1fa2;
-  outline: none;
-  background: #ede4f7;
+  background-color: #eae0fd;
 }
+
 .tipo-user {
+  margin: 1rem 0 1.8rem 0;
   display: flex;
-  gap: 1.2rem;
-  justify-content: center;
-  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  color: #7b1fa2;
+  font-weight: 700;
 }
+
 .tipo-user label {
-  color: #5341a4;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
+  cursor: pointer;
+}
+
+button[type='submit'] {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 18px;
+  border: none;
+  background: linear-gradient(90deg, #7b1fa2 60%, #46187e 100%);
+  color: white;
+  font-weight: 900;
   font-size: 1rem;
   cursor: pointer;
+  box-shadow: 0 2px 14px #36177e55;
+  transition: background 0.3s ease;
 }
-button {
-  background: linear-gradient(90deg, #7b1fa2 60%, #36177e 100%);
-  color: white;
-  font-weight: 700;
-  padding: 0.9rem 0;
-  border: none;
-  border-radius: 14px;
-  box-shadow: 0 1px 9px rgba(76,31,162,0.08);
-  margin-top: 0.5rem;
-  font-size: 1.1rem;
-  cursor: pointer;
+
+button[type='submit']:hover {
+  background: linear-gradient(90deg, #543293 40%, #463390 100%);
 }
-button:hover {
-  background: linear-gradient(90deg, #6532c2 40%, #463390 100%);
-}
+
 .error-msg {
-  color: #e53935;
-  font-weight: 700;
   margin-top: 1rem;
+  color: #a12727;
+  font-weight: 700;
+}
+
+.cadastro-link {
+  margin-top: 2rem;
+  font-weight: 700;
+  color: #7b1fa2;
+}
+
+.btn-cadastro {
+  background: none;
+  border: none;
+  color: #7b1fa2;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: underline;
+  margin-left: 0.3rem;
+}
+
+.btn-cadastro:hover {
+  color: #5a158e;
 }
 </style>
