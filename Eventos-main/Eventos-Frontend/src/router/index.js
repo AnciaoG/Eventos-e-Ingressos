@@ -2,17 +2,26 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 // Views do projeto:
 import Home from '../views/Home.vue';
-import EventDetails from '../views/EventDetails.vue';
-import Checkout from '../views/Checkout.vue';
-import AdminLogin from '../views/AdminLogin.vue';
-import AdminDashboard from '../views/AdminDashboard.vue';
+import Login from '../views/Login.vue';
+import Eventos from '../views/Eventos.vue';
+import Colaborador from '../views/Colaborador.vue';
+import Cadastro from '../views/Cadastro.vue';
+import Payment  from '../views/Payment.vue';
+import Relatorio from '../views/Relatorio.vue';
+import EventoDetalhe from '../views/EventoDetalhe.vue';
+
+
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/evento/:id', component: EventDetails, props: true },
-  { path: '/checkout', name: 'Checkout', component: Checkout },
-  { path: '/admin/login', component: AdminLogin },
-  { path: '/admin', component: AdminDashboard },
+  { path: '/login', component: Login },
+  { path: '/eventos', component: Eventos },
+  { path: '/colaborador', component: Colaborador },
+  { path: '/cadastro', component: Cadastro },
+  { path: '/pagamento', component: Payment },
+  { path: '/relatorio', component: Relatorio },
+  { path: '/evento/:id', component: EventoDetalhe },
+
   // Coloque aqui outras views/admin se precisar, como /admin/eventos!
 ];
 
