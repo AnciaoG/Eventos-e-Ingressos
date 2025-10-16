@@ -1,5 +1,6 @@
 <template>
   <main class="colab-bg">
+<<<<<<< HEAD
     <header class="colab-header">
       <h1>Área do Colaborador</h1>
       <button class="btn-relatorio" @click="gerarRelatorio">Gerar Relatório</button>
@@ -20,9 +21,9 @@
         <label for="local">Localização</label>
         <input id="local" type="text" v-model="local" placeholder="Local do evento" required />
 
+
         <label for="quantidadeIngressos">Quantidade de ingressos</label>
         <input id="quantidadeIngressos" type="number" v-model.number="quantidadeIngressos" min="1" required />
-
         <label for="img">URL da Imagem</label>
         <input id="img" type="text" v-model="img" placeholder="Cole a URL da imagem" required />
 
@@ -52,7 +53,6 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
 const mostrarForm = ref(false);
 const nome = ref('');
 const data = ref('');
@@ -97,6 +97,7 @@ function cadastrarEvento() {
     data: data.value,
     local: local.value,
     img: img.value,
+
     quantidadeIngressos: quantidadeIngressos.value,
     ingressosVendidos: 0,
   });

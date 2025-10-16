@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <main class="eventos-bg">
     <section class="endstadium-section">
       <h2>Eventos Disponíveis</h2>
@@ -265,5 +266,5 @@ function formatarData(data) {
 }
 .btn-fechar:hover {
   color: #46187e;
-}
+  }
 </style>

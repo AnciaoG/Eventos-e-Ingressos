@@ -88,9 +88,11 @@ label {
   color: #6532c2;
   margin-bottom: 0.2rem;
 }
+
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"] 
+input[type="text"], input[type="email"], input[type="password"] {
   padding: 0.75rem;
   border-radius: 14px;
   border: 1px solid #d3c6ef;

@@ -6,11 +6,9 @@ import Login from '../views/Login.vue';
 import Eventos from '../views/Eventos.vue';
 import Colaborador from '../views/Colaborador.vue';
 import Cadastro from '../views/Cadastro.vue';
-import Payment  from '../views/Payment.vue';
+import Payment from '../views/Payment.vue';
 import Relatorio from '../views/Relatorio.vue';
 import EventoDetalhe from '../views/EventoDetalhe.vue';
-
-
 
 const routes = [
   { path: '/', component: Home },

@@ -12,7 +12,6 @@
         <img src="https://img.icons8.com/ios-filled/50/ffffff/two-tickets.png" alt="Ícone ticket" class="login-icon" />
       </button>
     </header>
-
     <!-- Banner estilo carrossel, centralizado -->
     <section class="banner-area">
       <div class="banner-carousel">
@@ -27,7 +26,6 @@
         </div>
       </div>
     </section>
-
     <!-- ÁREA FIXA CENTRALIZADA PARA CATEGORIA E EVENTOS -->
     <section class="conteudo-central">
       <!-- Categorias -->
@@ -50,6 +48,16 @@
             <div class="evento-data">{{ formatarData(ev.data) }}</div>
             <div class="evento-local">{{ ev.local }}</div>
           </div>
+        </div>
+      </div>
+    </section>  
+    <!-- Listagem de eventos -->
+    <section class="eventos">
+      <h2>Eventos</h2>
+      <div class="eventos-grid">
+        <div v-for="evento in eventos" :key="evento.nome" class="evento-card">
+          <img :src="evento.img" class="evento-img" />
+          <div class="evento-nome">{{ evento.nome }}</div>
         </div>
       </div>
     </section>
