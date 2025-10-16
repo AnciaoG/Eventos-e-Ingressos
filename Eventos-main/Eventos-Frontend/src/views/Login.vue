@@ -14,12 +14,10 @@
           <label><input type="radio" value="normal" v-model="tipo" /> Usuário</label>
           <label><input type="radio" value="colaborador" v-model="tipo" /> Colaborador</label>
           <label><input type="radio" value="admin" v-model="tipo" /> Admin</label>
->>>>>>> e70d0f2f957ac9e23201488933f2ce74698d252d
         </div>
 
         <button type="submit">Entrar</button>
       </form>
-<<<<<<< HEAD
 
       <p class="error-msg" v-if="erro">{{ erro }}</p>
 
