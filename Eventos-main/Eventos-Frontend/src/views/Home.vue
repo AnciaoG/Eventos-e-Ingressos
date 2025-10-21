@@ -45,7 +45,7 @@
         <h3 class="sessao-titulo">Eventos</h3>
         <div class="lista-itens">
           <div v-for="ev in eventos" :key="ev.id" class="evento-card" @click="verDetalhes(ev.id)">
-            <img :src="ev.img" alt="evento" class="evento-img" />
+            <img :src="ev.imagem" alt="evento" class="evento-img" />
             <div class="evento-nome">{{ ev.nome }}</div>
             <div class="evento-data">{{ formatarData(ev.data) }}</div>
             <div class="evento-local">{{ ev.local }}</div>
@@ -57,9 +57,12 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
+
 const router = useRouter();
+const eventos = ref([]);
 function irParaLogin() {
   router.push('/login');
 }
@@ -82,40 +85,60 @@ const categorias = [
   { nome: 'Feira', img: 'https://img.icons8.com/color/48/000000/market-square.png' },
 ];
 
-const eventos = [
-  {
-    id: 1,
-    nome: 'Festival de Rock',
-    data: '2025-11-15',
-    local: 'Praça do Estádio',
-    img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 2,
-    nome: 'Noite Eletrônica',
-    data: '2025-12-02',
-    local: 'Arena Multishow',
-    img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 3,
-    nome: 'Stand Up Comedy',
-    data: '2025-12-17',
-    local: 'Teatro Central',
-    img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 4,
-    nome: 'Feira Tech',
-    data: '2025-10-28',
-    local: 'Expo Center',
-    img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80',
-  },
-];
+function buscarEventos() {
+  fetch('http://127.0.0.1:8000/api/eventos/')
+    .then(response => response.json())
+    .then(data => {
+      eventos.value = data;
+      console.log(data)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+//buscarEventos();
+
+// eventos = [
+//   {
+//     id: 1,
+//     nome: 'Festival de Rock',
+//     data: '2025-11-15',
+//     local: 'Praça do Estádio',
+//     img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+//   },
+//   {
+//     id: 2,
+//     nome: 'Noite Eletrônica',
+//     data: '2025-12-02',
+//     local: 'Arena Multishow',
+//     img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
+//   },
+//   {
+//     id: 3,
+//     nome: 'Stand Up Comedy',
+//     data: '2025-12-17',
+//     local: 'Teatro Central',
+//     img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80',
+//   },
+//   {
+//     id: 4,
+//     nome: 'Feira Tech',
+//     data: '2025-10-28',
+//     local: 'Expo Center',
+//     img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80',
+//   },
+// ];
+
 
 function formatarData(data) {
   return new Date(data).toLocaleDateString('pt-BR');
 }
+
+
+onMounted(() => {
+  buscarEventos();
+});
 </script>
 
 <style scoped>

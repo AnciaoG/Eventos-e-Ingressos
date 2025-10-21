@@ -2,7 +2,7 @@
   <main class="detalhe-bg" v-if="evento">
     <section class="detalhe-card">
       <h2>{{ evento.nome }}</h2>
-      <img :src="evento.img" alt="Imagem do evento" class="detalhe-img" />
+      <img :src="evento.imagem" alt="Imagem do evento" class="detalhe-img" />
       <p><strong>Data:</strong> {{ formatarData(evento.data) }}</p>
       <p><strong>Local:</strong> {{ evento.local }}</p>
       <p><strong>Ingressos disponíveis:</strong> {{ evento.quantidadeIngressos - evento.ingressosVendidos }}</p>
@@ -17,32 +17,43 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+const evento = ref([]);
 
 const route = useRoute();
 const router = useRouter();
 
-const eventos = [
-  {
-    id: 1,
-    nome: 'Festival de Rock',
-    data: '2025-11-15',
-    local: 'Praça do Estádio',
-    img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=350&q=80',
-    quantidadeIngressos: 150,
-    ingressosVendidos: 20,
-  },
-  {
-    id: 2,
-    nome: 'Noite Eletrônica',
-    data: '2025-12-02',
-    local: 'Arena Multishow',
-    img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=350&q=80',
-    quantidadeIngressos: 100,
-    ingressosVendidos: 45,
-  },
-];
+function buscarEvento(id) {
+  fetch(`http://127.0.0.1:8000/api/eventos/${id}`)
+    .then(response => response.json())
+    .then(data => {
+      evento.value = data;
+      console.log(data)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
 
-const evento = ref(null);
+// const eventos = [
+//   {
+//     id: 1,
+//     nome: 'Festival de Rock',
+//     data: '2025-11-15',
+//     local: 'Praça do Estádio',
+//     img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=350&q=80',
+//     quantidadeIngressos: 150,
+//     ingressosVendidos: 20,
+//   },
+//   {
+//     id: 2,
+//     nome: 'Noite Eletrônica',
+//     data: '2025-12-02',
+//     local: 'Arena Multishow',
+//     img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=350&q=80',
+//     quantidadeIngressos: 100,
+//     ingressosVendidos: 45,
+//   },
+// ];
 
 function formatarData(data) {
   return new Date(data).toLocaleDateString('pt-BR');
@@ -50,7 +61,7 @@ function formatarData(data) {
 
 onMounted(() => {
   const id = Number(route.params.id);
-  evento.value = eventos.find(ev => ev.id === id) || null;
+  buscarEvento(id);
 });
 
 function voltar() {

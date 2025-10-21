@@ -23,8 +23,8 @@
         <label for="quantidadeIngressos">Quantidade de ingressos</label>
         <input id="quantidadeIngressos" type="number" v-model.number="quantidadeIngressos" min="1" required />
 
-        <label for="img">URL da Imagem</label>
-        <input id="img" type="text" v-model="img" placeholder="Cole a URL da imagem" required />
+        <label for="file">Imagem</label>
+        <input id="file" type="file" @change="handleFileUpload" placeholder="Cole a URL da imagem" required />
 
         <button type="submit" class="btn-submit">Cadastrar Evento</button>
       </form>
@@ -35,7 +35,7 @@
         <h3>Meus Eventos</h3>
         <div class="eventos-grid">
           <div v-for="evento in eventos" :key="evento.id" class="evento-card" @click="verDetalhes(evento.id)">
-            <img :src="evento.img" alt="Evento" class="evento-img" />
+            <img :src="evento.imagem" alt="Evento" class="evento-img" />
             <div class="evento-nome">{{ evento.nome }}</div>
             <div class="evento-data">{{ formatarData(evento.data) }}</div>
             <div class="evento-local">{{ evento.local }}</div>
@@ -60,51 +60,53 @@ const local = ref('');
 const img = ref('');
 const quantidadeIngressos = ref(100);
 const mensagem = ref('');
-const eventos = ref([
-  {
-    id: 1,
-    nome: 'Festival de Rock',
-    data: '2025-11-15',
-    local: 'Praça do Estádio',
-    img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=350&q=80',
-    quantidadeIngressos: 150,
-    ingressosVendidos: 20,
-  },
-  {
-    id: 2,
-    nome: 'Noite Eletrônica',
-    data: '2025-12-02',
-    local: 'Arena Multishow',
-    img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=350&q=80',
-    quantidadeIngressos: 100,
-    ingressosVendidos: 45,
-  },
-]);
+const eventos = ref([]);
+
+
+const file = ref(null);
+
+function handleFileUpload(event) {
+  file.value = event.target.files[0];
+  console.log(file.value)
+}
 
 function formatarData(data) {
   return new Date(data).toLocaleDateString('pt-BR');
 }
 
 function cadastrarEvento() {
-  if (!nome.value || !data.value || !local.value || !img.value || !quantidadeIngressos.value || quantidadeIngressos.value < 1) {
+  if (!nome.value || !data.value || !local.value || !quantidadeIngressos.value || quantidadeIngressos.value < 1) {
     mensagem.value = 'Por favor, preencha todos os campos corretamente.';
     return;
   }
-  const novoId = eventos.value.length + 1;
-  eventos.value.push({
-    id: novoId,
-    nome: nome.value,
-    data: data.value,
-    local: local.value,
-    img: img.value,
-    quantidadeIngressos: quantidadeIngressos.value,
-    ingressosVendidos: 0,
-  });
+
+  fetch('http://127.0.0.1:8000/api/eventos/', 
+  { method: 'POST' ,
+    body: JSON.stringify({
+      nome: nome.value,
+      data: data.value,
+      local: local.value,
+      imagem: file.value,
+      descricao: 'descricao de testes'
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      eventos.value = data;
+      console.log(data)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
   mensagem.value = `Evento "${nome.value}" cadastrado com sucesso!`;
-  nome.value = '';
-  data.value = '';
-  local.value = '';
-  img.value = '';
+  // nome.value = '';
+  // data.value = '';
+  // local.value = '';
+  //img.value = '';
   quantidadeIngressos.value = 100;
   mostrarForm.value = false;
 }
@@ -116,6 +118,20 @@ function verDetalhes(id) {
 function gerarRelatorio() {
   router.push('/relatorio');
 }
+
+function buscarEventos() {
+  fetch('http://127.0.0.1:8000/api/eventos/')
+    .then(response => response.json())
+    .then(data => {
+      eventos.value = data;
+      console.log(data)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+buscarEventos();
 </script>
 
 <style scoped>
