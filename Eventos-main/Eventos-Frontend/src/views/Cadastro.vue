@@ -14,7 +14,7 @@
         <label>Tipo de usuário</label>
         <div class="tipo-user">
           <label><input type="radio" value="normal" v-model="tipo" /> Usuário normal</label>
-          <label><input type="radio" value="colaborador" v-model="tipo" /> Colaborador</label>
+          <label><input type="radio" value="Organizador" v-model="tipo" /> Organizador</label>
         </div>
         <button type="submit">Cadastrar</button>
       </form>
