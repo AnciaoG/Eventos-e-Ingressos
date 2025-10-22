@@ -45,12 +45,31 @@ const senha = ref('');
 const erro = ref('');
 const router = useRouter();
 
-function fazerLogin() {
-  if (email.value && senha.value) {
-    // Login simples, redirecionando direto para eventos
-    router.push('/eventos');
-  } else {
+// Função de login chamando backend
+async function fazerLogin() {
+  if (!email.value || !senha.value) {
     erro.value = 'Preencha email e senha.';
+    return;
+  }
+
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/login/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // importante para manter sessão
+      body: JSON.stringify({ username: email.value, password: senha.value })
+    });
+
+    if (response.status === 200) {
+      // Login ok
+      router.push('/eventos');
+    } else {
+      const data = await response.json();
+      erro.value = data.error || 'Usuário ou senha inválidos.';
+    }
+  } catch (err) {
+    console.error('Erro de conexão:', err);
+    erro.value = 'Erro ao conectar com o servidor.';
   }
 }
 
@@ -60,6 +79,7 @@ function irParaCadastro() {
 </script>
 
 <style scoped>
+/* Seu CSS existente permanece igual */
 .auth-bg {
   min-height: 100vh;
   background: linear-gradient(135deg, #ece1fa 40%, #f0e5fe 100%);

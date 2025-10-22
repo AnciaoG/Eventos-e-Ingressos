@@ -1,7 +1,7 @@
 <template>
   <main class="colab-bg">
     <header class="colab-header">
-      <h1>Área do Organizadorr</h1>
+      <h1>Área do Organizador</h1>
       <button class="btn-relatorio" @click="gerarRelatorio">Gerar Relatório</button>
     </header>
 
@@ -24,7 +24,7 @@
         <input id="quantidadeIngressos" type="number" v-model.number="quantidadeIngressos" min="1" required />
 
         <label for="file">Imagem</label>
-        <input id="file" type="file" @change="handleFileUpload" placeholder="Cole a URL da imagem" required />
+        <input id="file" type="file" @change="handleFileUpload" required />
 
         <button type="submit" class="btn-submit">Cadastrar Evento</button>
       </form>
@@ -34,12 +34,24 @@
       <section class="eventos">
         <h3>Meus Eventos</h3>
         <div class="eventos-grid">
-          <div v-for="evento in eventos" :key="evento.id" class="evento-card" @click="verDetalhes(evento.id)">
-            <img :src="evento.imagem" alt="Evento" class="evento-img" />
+          <div
+            v-for="evento in eventos"
+            :key="evento.id"
+            class="evento-card"
+            @click="verDetalhes(evento.id)"
+          >
+            <img
+              :src="formatarImagem(evento.imagem)"
+              alt="Evento"
+              class="evento-img"
+            />
             <div class="evento-nome">{{ evento.nome }}</div>
             <div class="evento-data">{{ formatarData(evento.data) }}</div>
             <div class="evento-local">{{ evento.local }}</div>
-            <div class="evento-ingressos">Ingressos disponíveis: {{ evento.quantidadeIngressos - evento.ingressosVendidos }}</div>
+            <div class="evento-ingressos">
+              Ingressos disponíveis:
+              {{ evento.quantidadeIngressos - (evento.ingressosVendidos || 0) }}
+            </div>
           </div>
         </div>
       </section>
@@ -57,58 +69,67 @@ const mostrarForm = ref(false);
 const nome = ref('');
 const data = ref('');
 const local = ref('');
-const img = ref('');
 const quantidadeIngressos = ref(100);
 const mensagem = ref('');
 const eventos = ref([]);
-
-
 const file = ref(null);
 
 function handleFileUpload(event) {
   file.value = event.target.files[0];
-  console.log(file.value)
+  console.log('Arquivo selecionado:', file.value);
 }
 
 function formatarData(data) {
   return new Date(data).toLocaleDateString('pt-BR');
 }
 
-function cadastrarEvento() {
-  if (!nome.value || !data.value || !local.value || !quantidadeIngressos.value || quantidadeIngressos.value < 1) {
+// 👇 Função para corrigir o caminho da imagem retornada pelo backend
+function formatarImagem(caminho) {
+  if (!caminho) return '';
+  if (caminho.startsWith('http')) return caminho;
+  return `http://127.0.0.1:8000${caminho}`;
+}
+
+async function cadastrarEvento() {
+  if (!nome.value || !data.value || !local.value || !file.value) {
     mensagem.value = 'Por favor, preencha todos os campos corretamente.';
     return;
   }
 
-  fetch('http://127.0.0.1:8000/api/eventos/', 
-  { method: 'POST' ,
-    body: JSON.stringify({
-      nome: nome.value,
-      data: data.value,
-      local: local.value,
-      imagem: file.value,
-      descricao: 'descricao de testes'
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(response => response.json())
-    .then(data => {
-      eventos.value = data;
-      console.log(data)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+  const formData = new FormData();
+  formData.append('nome', nome.value);
+  formData.append('data', data.value);
+  formData.append('local', local.value);
+  formData.append('quantidadeIngressos', quantidadeIngressos.value);
+  formData.append('descricao', 'Descrição de teste');
+  formData.append('imagem', file.value);
+
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/eventos/', {
+      method: 'POST',
+      body: formData,
+      // ❌ Não definir Content-Type manualmente!
     });
 
-  mensagem.value = `Evento "${nome.value}" cadastrado com sucesso!`;
-  // nome.value = '';
-  // data.value = '';
-  // local.value = '';
-  //img.value = '';
-  quantidadeIngressos.value = 100;
-  mostrarForm.value = false;
+    if (!response.ok) {
+      throw new Error(`Erro ao cadastrar evento: ${response.statusText}`);
+    }
+
+    const dataResponse = await response.json();
+    eventos.value.push(dataResponse);
+    mensagem.value = `Evento "${nome.value}" cadastrado com sucesso!`;
+    mostrarForm.value = false;
+
+    // limpa o formulário
+    nome.value = '';
+    data.value = '';
+    local.value = '';
+    quantidadeIngressos.value = 100;
+    file.value = null;
+  } catch (error) {
+    console.error('Erro no cadastro do evento:', error);
+    mensagem.value = 'Erro ao cadastrar o evento. Verifique o console.';
+  }
 }
 
 function verDetalhes(id) {
@@ -124,10 +145,10 @@ function buscarEventos() {
     .then(response => response.json())
     .then(data => {
       eventos.value = data;
-      console.log(data)
+      console.log('Eventos carregados:', data);
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error('Erro ao buscar eventos:', error);
     });
 }
 
