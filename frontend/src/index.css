@@ -1,29 +1,31 @@
-:root{
-  --bg:#fafafa;
-  --card:#fff;
-  --accent:#2d6cdf;
-  --muted:#666;
+/* src/index.css */
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--texto);
 }
-body{font-family:Inter,system-ui,Arial; background:var(--bg); margin:0; color:#222;}
-.app-header{background:#fff;padding:12px 20px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center;}
-.logo{color:var(--accent);text-decoration:none;}
-.app-main{max-width:1000px;margin:28px auto;padding:0 16px;}
-.event-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
-.event-card{background:var(--card);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(0,0,0,.04);}
-.event-thumb{width:100%;height:180px;object-fit:cover;}
-.event-info{padding:14px;}
-.meta{font-size:0.9rem;color:var(--muted);margin:6px 0;}
-.desc{color:#333;margin:8px 0 12px;}
-.actions{display:flex;gap:8px;}
-.btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:6px;text-decoration:none;border:none;cursor:pointer;}
-.evento-detail .detail-grid{display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;}
-.detail-img{width:100%;height:auto;border-radius:8px;object-fit:cover;}
-.purchase-form{background:#fff;padding:12px;border-radius:6px;box-shadow:0 6px 14px rgba(0,0,0,.03);}
-.purchase-form label{display:block;margin-bottom:8px;font-size:0.9rem;}
-.purchase-form input[type="number"], .purchase-form input[type="text"]{width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #ddd;}
-.back{display:inline-block;margin-bottom:12px;color:var(--muted);text-decoration:none;}
-.message{margin-top:12px;color:green;}
-.error{color:#b00020;}
-@media (max-width:900px){
-  .evento-detail .detail-grid{grid-template-columns:1fr;}
+
+a {
+  text-decoration: none;
+  color: var(--roxo-primario);
+  transition: 0.3s;
+}
+
+a:hover {
+  color: var(--roxo-escuro);
+}
+
+.btn {
+  background: var(--roxo-primario);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: var(--roxo-escuro);
 }
