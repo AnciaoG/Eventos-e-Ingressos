@@ -34,12 +34,10 @@ export default function EventoList() {
       }
     ];
 
-    // Tenta buscar da API, se falhar usa dados de teste
     apiGet('/eventos/')
       .then(data => {
         if (mounted) {
           if (data.length === 0) {
-            // Se API retornar vazia, usa dados de teste
             setEventos(dadosTeste);
           } else {
             setEventos(data);
@@ -50,7 +48,7 @@ export default function EventoList() {
       .catch(e => {
         if (mounted) {
           console.warn('Usando dados de teste:', e.message);
-          setEventos(dadosTeste); // Usa dados de teste se API falhar
+          setEventos(dadosTeste); 
           setLoading(false);
         }
       });
