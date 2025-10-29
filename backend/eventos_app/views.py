@@ -12,7 +12,7 @@ class EventoDetailView(generics.RetrieveAPIView):
     queryset = Evento.objects.all()
     serializer_class = EventoSerializer
 
-# Criar ingresso (simulando compra)
+# Criar ingresso 
 class IngressoCreateView(generics.CreateAPIView):
     queryset = Ingresso.objects.all()
     serializer_class = IngressoSerializer

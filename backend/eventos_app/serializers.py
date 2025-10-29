@@ -10,3 +10,5 @@ class IngressoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingresso
         fields = '__all__'
+
+#É o tradutor entre o Django (que fala “modelo Python”) e o frontend (que fala “JSON”)

@@ -5,3 +5,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('eventos_app.urls')),  # API de eventos
 ]
+
+#mapeia as rotas
