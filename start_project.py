@@ -11,7 +11,7 @@ def start_backend():
 def start_frontend():
     print(" Iniciando servidor FRONTEND...")
     os.chdir("frontend")
-    subprocess.Popen(["npm", "run", "dev"], shell=True)
+    subprocess.Popen(["npm", "run", "start"], shell=True)
     os.chdir("..")
 
 if __name__ == "__main__":
