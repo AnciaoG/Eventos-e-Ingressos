@@ -11,7 +11,6 @@ export default function EventoList() {
   useEffect(() => {
     let mounted = true;
     
-    // 🧪 DADOS DE TESTE (remover depois)
     const dadosTeste = [
       {
         id: 1,
