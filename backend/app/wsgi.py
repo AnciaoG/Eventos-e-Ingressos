@@ -15,4 +15,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
 
 application = get_wsgi_application()
 
-#interface com servidor web
+#é o “ponto de entrada” do Django para o servidor
