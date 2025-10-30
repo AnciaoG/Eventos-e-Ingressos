@@ -13,7 +13,6 @@ export default function EventoDetail() {
   const [comprando, setComprando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
 
-  // 🧪 DADOS DE TESTE
   const dadosTeste = {
     1: {
       id: 1,
@@ -51,7 +50,6 @@ export default function EventoDetail() {
       .catch(e => {
         if (mounted) {
           console.warn('Usando dados de teste:', e.message);
-          // Usa dados de teste se API falhar
           const eventoMockado = dadosTeste[id];
           if (eventoMockado) {
             setEvento(eventoMockado);
